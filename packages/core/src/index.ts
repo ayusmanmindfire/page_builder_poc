@@ -1,4 +1,4 @@
- class PageBuilderCore {
+export class PageBuilderCore {
     private components: Record<string, any>;
   
     constructor(config: { components: Record<string, any> }) {

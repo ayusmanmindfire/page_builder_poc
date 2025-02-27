@@ -1,9 +1,0 @@
-export class PageBuilderCore {
-    constructor(config) {
-        this.components = config.components;
-        console.log("PageBuilderCore initialized with:", this.components);
-    }
-    getComponents() {
-        return this.components;
-    }
-}

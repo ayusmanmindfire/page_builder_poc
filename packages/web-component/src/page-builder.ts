@@ -1,4 +1,4 @@
-import { PageBuilderCore } from "@page-builder/core";
+import { PageBuilderCore } from "core";
 
 class PageBuilderElement extends HTMLElement {
   private core: PageBuilderCore;
