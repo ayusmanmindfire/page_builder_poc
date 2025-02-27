@@ -1,0 +1,8 @@
+{
+  "name": "@page-builder/web-component",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@page-builder/core": "workspace:*"
+  }
+}
