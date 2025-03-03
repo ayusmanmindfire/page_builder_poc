@@ -1,8 +1,20 @@
 {
-  "name": "react",
-  "version": "1.0.0",
-  "description": "",
-  "main": "dist/index.js",
+  "name": "@mindfiredigital/page-builder-react",
+  "version": "1.2.0",
+  "private": false,
+  "description": "React UI Page builder",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mindfiredigital/page-builder.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -10,25 +22,26 @@
     "require": "./dist/index.js",
     "types": "./dist/index.d.ts"
   },
+  "sideEffects": false,
+  "license": "MIT",
   "scripts": {
     "start": "serve dist",
     "build": "tsup",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsup --watch",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "release": "turbo run build && pnpm publish --access public"
   },
   "dependencies": {
     "web-component": "workspace:*"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
-    "@types/react": "^19.0.10",
-    "@types/react-dom": "^19.0.4",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.0.0",
     "serve": "^14.2.4",
-    "tsup": "^8.4.0",
-    "typescript": "^5.7.3"
+    "tsup": "^6.7.0",
+    "typescript": "^5.0.0"
   },
   "peerDependencies": {
     "react": ">=17.0.0",

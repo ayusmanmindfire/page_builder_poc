@@ -28,17 +28,19 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // src/index.tsx
-var index_exports = {};
-__export(index_exports, {
+var src_exports = {};
+__export(src_exports, {
   PageBuilderReact: () => PageBuilderReact
 });
-module.exports = __toCommonJS(index_exports);
+module.exports = __toCommonJS(src_exports);
+
+// src/components/PageBuilder.tsx
 var import_react = __toESM(require("react"));
 var PageBuilderReact = () => {
   (0, import_react.useEffect)(() => {
     import("web-component");
   }, []);
-  return import_react.default.createElement("page-builder-element", null);
+  return /* @__PURE__ */ import_react.default.createElement("page-builder", { style: { width: "100vw", height: "100vh" } });
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

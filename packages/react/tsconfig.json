@@ -16,6 +16,6 @@
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": ["src", "src/**/*.d.ts", "src/custom-elements.d.ts"],
+  "include": ["src"],
   "exclude": ["node_modules", "dist"]
 }

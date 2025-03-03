@@ -18,4 +18,6 @@ class PageBuilderElement extends HTMLElement {
   }
 }
 
-customElements.define("page-builder-element", PageBuilderElement);
+if (!customElements.get('page-builder')) {
+  customElements.define("page-builder", PageBuilderElement);
+}

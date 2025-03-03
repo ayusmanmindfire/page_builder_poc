@@ -13,5 +13,7 @@ var PageBuilderElement = class extends HTMLElement {
     console.log("Updated config:", config);
   }
 };
-customElements.define("page-builder-element", PageBuilderElement);
+if (!customElements.get("page-builder")) {
+  customElements.define("page-builder", PageBuilderElement);
+}
 //# sourceMappingURL=index.mjs.map
