@@ -1,5 +1,11 @@
 import React from 'react';
 
-declare const PageBuilderReact: React.FC;
+interface PageBuilderConfig {
+    components: Record<string, any>;
+}
+interface PageBuilderReactProps {
+    config?: PageBuilderConfig;
+}
+declare const PageBuilderReact: React.FC<PageBuilderReactProps>;
 
 export { PageBuilderReact };
