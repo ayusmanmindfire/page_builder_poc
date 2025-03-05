@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+      "baseUrl": ".",
+      "paths": {
+        "@page-builder/*": ["packages/*/src"]
+      }
+    }
+  }
+  

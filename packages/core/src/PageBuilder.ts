@@ -10,4 +10,3 @@ export class PageBuilderCore {
       return this.components;
     }
   }
-const page= new PageBuilderCore({components:{}});
