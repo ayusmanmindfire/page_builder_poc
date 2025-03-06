@@ -1,13 +1,41 @@
 export class PageBuilderCore {
-    private components: Record<string, any>;
-  
-    constructor(config: { components: Record<string, any> }) {
-      this.components = config.components;
-      console.log("PageBuilderCore initialized with:", this.components);
-    }
-  
-    getComponents() {
-      return this.components;
-    }
+  private components: Record<string, any>;
+  private reactComponents: Record<string, any>; // Still stores React components for reference
+
+  constructor(config: { components: Record<string, any> }, reactComponents: Record<string, any> = {}) {
+    this.components = config.components;
+    this.reactComponents = reactComponents;
+
+    console.log("✅ PageBuilderCore initialized with config:", this.components);
+    console.log("✅ PageBuilderCore received React components:", this.reactComponents);
+
+    this.render(); // ✅ Invoke render method in constructor
   }
-const page= new PageBuilderCore({components:{}});
+
+  getComponents() {
+    return this.components;
+  }
+
+  // ✅ Render method using Vanilla JavaScript
+  private render() {
+    const container = document.getElementById("canvas");
+    console.log(container)
+
+    if (!container) {
+      console.error("❌ No #core-container found. Cannot render.");
+      return;
+    }
+
+    // ✅ Clear previous content before rendering
+    container.innerHTML = "<h2>Page Builder Core</h2>";
+
+    // ✅ Loop through components and create HTML elements dynamically
+    Object.entries(this.components || {}).forEach(([key, comp]) => {
+      const element = document.createElement("div");
+      element.classList.add("page-builder-component");
+      element.innerText = comp.label || `Unknown Component (${key})`;
+      container.appendChild(element);
+    });
+  }
+}
+

@@ -1,16 +1,18 @@
 import React, { useEffect, useRef } from "react";
 
 interface PageBuilderConfig {
+  theme?: string;
+  grid?: boolean;
   components: Record<string, any>;
 }
 
 interface PageBuilderReactProps {
-  config?: PageBuilderConfig;
+  config: PageBuilderConfig;
+  reactComponents: Record<string, React.FC<any>>;
 }
 
-export const PageBuilderReact: React.FC<PageBuilderReactProps> = ({ config = { components: {} } }) => {
+export const PageBuilderReact: React.FC<PageBuilderReactProps> = ({ config, reactComponents }) => {
   const builderRef = useRef<HTMLElement>(null);
-  
   useEffect(() => {
     // Dynamically import the web component
     import("web-component").catch(error => {
@@ -20,11 +22,13 @@ export const PageBuilderReact: React.FC<PageBuilderReactProps> = ({ config = { c
 
   useEffect(() => {
     if (builderRef.current) {
-      // Use config-data attribute instead of config to avoid potential conflicts
-      builderRef.current.setAttribute('config-data', JSON.stringify(config));
-      console.log("Config in react wrapper:",config)
+      console.log("Config in React wrapper:", config);
+      console.log("React Components in React wrapper:", reactComponents);
+
+      builderRef.current.setAttribute("config-data", JSON.stringify(config)); // Pass serializable config
+      (builderRef.current as any).reactComponents = reactComponents; // Pass React components separately
     }
-  }, [config]);
+  }, [config, reactComponents]);
 
   return <page-builder ref={builderRef} />;
 };
