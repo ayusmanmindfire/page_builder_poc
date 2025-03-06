@@ -36,7 +36,7 @@ module.exports = __toCommonJS(src_exports);
 
 // src/components/PageBuilder.tsx
 var import_react = __toESM(require("react"));
-var PageBuilderReact = ({ config = { components: {} } }) => {
+var PageBuilderReact = ({ config, reactComponents }) => {
   const builderRef = (0, import_react.useRef)(null);
   (0, import_react.useEffect)(() => {
     import("web-component").catch((error) => {
@@ -45,10 +45,12 @@ var PageBuilderReact = ({ config = { components: {} } }) => {
   }, []);
   (0, import_react.useEffect)(() => {
     if (builderRef.current) {
+      console.log("Config in React wrapper:", config);
+      console.log("React Components in React wrapper:", reactComponents);
       builderRef.current.setAttribute("config-data", JSON.stringify(config));
-      console.log("Config in react wrapper:", config);
+      builderRef.current.reactComponents = reactComponents;
     }
-  }, [config]);
+  }, [config, reactComponents]);
   return /* @__PURE__ */ import_react.default.createElement("page-builder", { ref: builderRef });
 };
 // Annotate the CommonJS export names for ESM import in node:

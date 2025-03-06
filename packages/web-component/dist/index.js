@@ -4,10 +4,31 @@ var PageBuilderElement = class extends HTMLElement {
   constructor() {
     super();
     this.core = null;
+    this.initialized = false;
     this._config = { components: {} };
-    this.core = new PageBuilderCore(this._config);
+    this._reactComponents = {};
+    // Storing React components
+    this.template = `<div id="app">
+      <div id="sidebar"></div>
+      <div id="canvas" class="canvas"></div>
+      <div id="customization">
+        <h4 id="component-name">Component: None</h4>
+        <div id="controls"></div>
+        <div id="layers-view" class="hidden"></div>
+      </div>
+      <div id="notification" class="notification hidden"></div>
+      <div id="dialog" class="dialog hidden">
+        <div class="dialog-content">
+          <p id="dialog-message"></p>
+          <button id="dialog-yes" class="dialog-btn">Yes</button>
+          <button id="dialog-no" class="dialog-btn">No</button>
+        </div>
+      </div>
+    </div>`;
+    if (!this.firstElementChild) {
+      this.innerHTML = this.template;
+    }
   }
-  // Use observedAttributes to monitor the config-data attribute
   static get observedAttributes() {
     return ["config-data"];
   }
@@ -16,25 +37,34 @@ var PageBuilderElement = class extends HTMLElement {
       try {
         const parsedConfig = JSON.parse(newValue);
         this._config = parsedConfig;
-        this.core = new PageBuilderCore(parsedConfig);
-        console.log("\u2705 Config received in Web Component:", parsedConfig);
-        this.render();
+        console.log("Config received in Web Component:", parsedConfig);
+        console.log("react components in Web Component:", this.reactComponents);
+        this.initializeCore();
       } catch (e) {
-        console.error("Failed to parse config:", e);
+        console.error(" Failed to parse config:", e);
       }
     }
   }
-  connectedCallback() {
-    console.log("\u2705 Web Component Mounted");
-    this.render();
+  set reactComponents(value) {
+    this._reactComponents = value;
   }
-  render() {
-    this.innerHTML = `
-      <div>
-        <h3>Page Builder Web Component</h3>
-        <pre>${JSON.stringify(this._config, null, 2)}</pre>
-      </div>
-    `;
+  get reactComponents() {
+    return this._reactComponents;
+  }
+  // Ensures Core gets updated values (No updateConfig method)
+  initializeCore() {
+    if (this.initialized) {
+      return;
+    }
+    this.initialized = true;
+    this.core = new PageBuilderCore(this._config, this.reactComponents);
+  }
+  connectedCallback() {
+    if (this.initialized) {
+      return;
+    }
+    console.log(" Web Component Mounted");
+    this.initializeCore();
   }
 };
 if (!customElements.get("page-builder")) {

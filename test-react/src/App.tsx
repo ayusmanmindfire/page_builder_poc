@@ -1,15 +1,26 @@
 import { PageBuilderReact } from "page-builder-react";
+import CustomButton from "./components/CustomButton";
 
 const App = () => {
-  const config = {
+  const serializableConfig = {
     theme: "dark",
     grid: true,
-    components: ["text", "image", "button"], // Example config
+    components: {
+      text: { type: "text", label: "Text Component" },
+      image: { type: "image", label: "Image Component" },
+      button: { type: "button", label: "Button Component" },
+      customButton: { type: "customButton", label: "Custom Button Component" },
+    },
+  };
+
+  const reactComponents = {
+    customButton: CustomButton,
   };
 
   return (
     <div>
-      <PageBuilderReact config={config} />
+      <CustomButton label={"HELLO FROM USER"} disabled />
+      <PageBuilderReact config={serializableConfig} reactComponents={reactComponents} />
     </div>
   );
 };
