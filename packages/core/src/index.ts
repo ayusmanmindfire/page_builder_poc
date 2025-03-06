@@ -1,41 +1,57 @@
+import React from "react";
+import ReactDOM from "react-dom/client";
+
 export class PageBuilderCore {
-  private components: Record<string, any>;
-  private reactComponents: Record<string, any>; // Still stores React components for reference
+  private components;
+  private reactComponents: Record<string, any>; //  Store React components
+  private reactRoot: ReactDOM.Root | null = null;
 
   constructor(config: { components: Record<string, any> }, reactComponents: Record<string, any> = {}) {
     this.components = config.components;
     this.reactComponents = reactComponents;
 
-    console.log("✅ PageBuilderCore initialized with config:", this.components);
-    console.log("✅ PageBuilderCore received React components:", this.reactComponents);
+    console.log(" PageBuilderCore received React components:", this.reactComponents);
+    console.log("Components in core: ",this.components)
 
-    this.render(); // ✅ Invoke render method in constructor
+    this.render();
   }
 
-  getComponents() {
-    return this.components;
-  }
-
-  // ✅ Render method using Vanilla JavaScript
   private render() {
     const container = document.getElementById("canvas");
-    console.log(container)
 
     if (!container) {
-      console.error("❌ No #core-container found. Cannot render.");
+      console.error(" No #canvas found. Cannot render.");
       return;
     }
 
-    // ✅ Clear previous content before rendering
-    container.innerHTML = "<h2>Page Builder Core</h2>";
+    // Create a div for React components if it doesn't exist
+    let reactContainer = document.getElementById("react-container");
+    if (!reactContainer) {
+      reactContainer = document.createElement("div");
+      reactContainer.id = "react-container";
+      container.appendChild(reactContainer);
+    }
 
-    // ✅ Loop through components and create HTML elements dynamically
-    Object.entries(this.components || {}).forEach(([key, comp]) => {
-      const element = document.createElement("div");
-      element.classList.add("page-builder-component");
-      element.innerText = comp.label || `Unknown Component (${key})`;
-      container.appendChild(element);
-    });
+    if (!this.reactRoot) {
+      this.reactRoot = ReactDOM.createRoot(reactContainer);
+    }
+
+
+    // Validate that reactComponents are functions (React components)
+    const reactElements = Object.entries(this.reactComponents).map(([key, Component]) => {
+      if (typeof Component !== "function") {
+        console.warn(`Skipping invalid component: ${key}`, Component);
+        return null;
+      }
+      return React.createElement(Component, { key, label: `Button from core` });
+    }).filter(Boolean); // Remove null values
+
+    if (reactElements.length === 0) {
+      console.warn("No valid React components found.");
+      return;
+    }
+
+    // Render React Components inside the vanilla container
+    this.reactRoot.render(React.createElement("div", null, ...reactElements));
   }
 }
-

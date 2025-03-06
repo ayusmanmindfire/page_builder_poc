@@ -19,7 +19,7 @@ const App = () => {
 
   return (
     <div>
-      <CustomButton label={"HELLO"} disabled />
+      <CustomButton label={"HELLO FROM USER"} disabled />
       <PageBuilderReact config={serializableConfig} reactComponents={reactComponents} />
     </div>
   );
