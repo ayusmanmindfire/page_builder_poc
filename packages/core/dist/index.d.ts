@@ -1,9 +1,11 @@
 export declare class PageBuilderCore {
     private components;
-    private reactComponents;
-    private reactRoot;
+    private customComponents;
+    private container;
+    private customComponentContainer;
     constructor(config: {
         components: Record<string, any>;
-    }, reactComponents?: Record<string, any>);
+    }, customComponents?: Record<string, any>);
     private render;
+    private createDOMFromComponentStructure;
 }

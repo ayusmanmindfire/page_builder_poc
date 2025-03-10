@@ -1,5 +1,6 @@
 import { PageBuilderReact } from "page-builder-react";
 import CustomButton from "./components/CustomButton";
+import CustomTable from "./components/CustomTable";
 
 const App = () => {
   const serializableConfig = {
@@ -15,6 +16,7 @@ const App = () => {
 
   const reactComponents = {
     customButton: CustomButton,
+    customTable: CustomTable
   };
 
   return (
