@@ -36,6 +36,7 @@ module.exports = __toCommonJS(src_exports);
 
 // src/components/PageBuilder.tsx
 var import_react = __toESM(require("react"));
+var import_client = __toESM(require("react-dom/client"));
 var PageBuilderReact = ({ config, reactComponents }) => {
   const builderRef = (0, import_react.useRef)(null);
   (0, import_react.useEffect)(() => {
@@ -46,9 +47,23 @@ var PageBuilderReact = ({ config, reactComponents }) => {
   (0, import_react.useEffect)(() => {
     if (builderRef.current) {
       console.log("Config in React wrapper:", config);
-      console.log("React Components in React wrapper:", reactComponents);
+      const wrappedComponents = {};
+      Object.entries(reactComponents).forEach(([key, Component]) => {
+        const tagName = `react-component-${key.toLowerCase()}`;
+        if (!customElements.get(tagName)) {
+          class ReactComponentElement extends HTMLElement {
+            connectedCallback() {
+              const mountPoint = document.createElement("div");
+              this.appendChild(mountPoint);
+              import_client.default.createRoot(mountPoint).render(/* @__PURE__ */ import_react.default.createElement(Component, null));
+            }
+          }
+          customElements.define(tagName, ReactComponentElement);
+        }
+        wrappedComponents[key] = tagName;
+      });
       builderRef.current.setAttribute("config-data", JSON.stringify(config));
-      builderRef.current.reactComponents = reactComponents;
+      builderRef.current.reactComponents = wrappedComponents;
     }
   }, [config, reactComponents]);
   return /* @__PURE__ */ import_react.default.createElement("page-builder", { ref: builderRef });

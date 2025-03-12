@@ -1,6 +1,7 @@
 import { PageBuilderReact } from "page-builder-react";
 import CustomButton from "./components/CustomButton";
 import CustomTable from "./components/CustomTable";
+import Counter from "./components/Counter";
 
 const App = () => {
   const serializableConfig = {
@@ -16,12 +17,13 @@ const App = () => {
 
   const reactComponents = {
     customButton: CustomButton,
-    customTable: CustomTable
+    customTable: CustomTable,
+    customCounter:Counter
   };
 
   return (
     <div>
-      <CustomButton label={"HELLO FROM USER"} disabled />
+      <CustomButton label={"HELLO FROM USER"}  />
       <PageBuilderReact config={serializableConfig} reactComponents={reactComponents} />
     </div>
   );

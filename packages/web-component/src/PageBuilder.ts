@@ -52,7 +52,6 @@ class PageBuilderElement extends HTMLElement {
 
   set reactComponents(value) {
     this._reactComponents = value;
-    // this.initializeCore(); // Reinitialize Core when React components change
   }
 
   get reactComponents() {

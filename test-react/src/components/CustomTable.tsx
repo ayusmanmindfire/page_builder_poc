@@ -9,7 +9,7 @@ const CustomTable: React.FC = () => {
   ];
 
   return (
-    <table className="custom-table">
+    <table className="custom-table" style={{border: "solid 1px", marginTop: "10px"}}>
       <thead>
         <tr>
           {columns.map((col) => (

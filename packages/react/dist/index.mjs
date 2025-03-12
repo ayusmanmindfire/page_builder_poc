@@ -1,5 +1,6 @@
 // src/components/PageBuilder.tsx
 import React, { useEffect, useRef } from "react";
+import ReactDOM from "react-dom/client";
 var PageBuilderReact = ({ config, reactComponents }) => {
   const builderRef = useRef(null);
   useEffect(() => {
@@ -10,9 +11,23 @@ var PageBuilderReact = ({ config, reactComponents }) => {
   useEffect(() => {
     if (builderRef.current) {
       console.log("Config in React wrapper:", config);
-      console.log("React Components in React wrapper:", reactComponents);
+      const wrappedComponents = {};
+      Object.entries(reactComponents).forEach(([key, Component]) => {
+        const tagName = `react-component-${key.toLowerCase()}`;
+        if (!customElements.get(tagName)) {
+          class ReactComponentElement extends HTMLElement {
+            connectedCallback() {
+              const mountPoint = document.createElement("div");
+              this.appendChild(mountPoint);
+              ReactDOM.createRoot(mountPoint).render(/* @__PURE__ */ React.createElement(Component, null));
+            }
+          }
+          customElements.define(tagName, ReactComponentElement);
+        }
+        wrappedComponents[key] = tagName;
+      });
       builderRef.current.setAttribute("config-data", JSON.stringify(config));
-      builderRef.current.reactComponents = reactComponents;
+      builderRef.current.reactComponents = wrappedComponents;
     }
   }, [config, reactComponents]);
   return /* @__PURE__ */ React.createElement("page-builder", { ref: builderRef });

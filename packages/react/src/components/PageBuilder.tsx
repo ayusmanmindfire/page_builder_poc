@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import ReactDOM from "react-dom/client";
 
 interface PageBuilderConfig {
   theme?: string;
@@ -13,8 +14,8 @@ interface PageBuilderReactProps {
 
 export const PageBuilderReact: React.FC<PageBuilderReactProps> = ({ config, reactComponents }) => {
   const builderRef = useRef<HTMLElement>(null);
+
   useEffect(() => {
-    // Dynamically import the web component
     import("web-component").catch(error => {
       console.error("Failed to load web component:", error);
     });
@@ -23,10 +24,28 @@ export const PageBuilderReact: React.FC<PageBuilderReactProps> = ({ config, reac
   useEffect(() => {
     if (builderRef.current) {
       console.log("Config in React wrapper:", config);
-      console.log("React Components in React wrapper:", reactComponents);
 
-      builderRef.current.setAttribute("config-data", JSON.stringify(config)); // Pass serializable config
-      (builderRef.current as any).reactComponents = reactComponents; // Pass React components separately
+      // Convert React components into web components
+      const wrappedComponents: Record<string, string> = {};
+      Object.entries(reactComponents).forEach(([key, Component]) => {
+        const tagName = `react-component-${key.toLowerCase()}`;
+
+        if (!customElements.get(tagName)) {
+          class ReactComponentElement extends HTMLElement {
+            connectedCallback() {
+              const mountPoint = document.createElement("div");
+              this.appendChild(mountPoint);
+              ReactDOM.createRoot(mountPoint).render(<Component />);
+            }
+          }
+          customElements.define(tagName, ReactComponentElement);
+        }
+
+        wrappedComponents[key] = tagName; // Store the tag name
+      });
+
+      builderRef.current.setAttribute("config-data", JSON.stringify(config)); // Pass config
+      (builderRef.current as any).reactComponents = wrappedComponents; // Pass tag names
     }
   }, [config, reactComponents]);
 

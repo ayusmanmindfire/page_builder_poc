@@ -7,5 +7,4 @@ export declare class PageBuilderCore {
         components: Record<string, any>;
     }, customComponents?: Record<string, any>);
     private render;
-    private createDOMFromComponentStructure;
 }

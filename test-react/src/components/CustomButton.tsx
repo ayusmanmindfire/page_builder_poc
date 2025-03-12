@@ -1,5 +1,9 @@
 
-const CustomButton = ({ label, onClick, style, disabled }:any) => {
+const CustomButton = ({ label, style, disabled }:any) => {
+  function onClick(){
+    console.log("hyyyyy")
+    alert("HY")
+  }
   return (
     <button
       onClick={onClick}
