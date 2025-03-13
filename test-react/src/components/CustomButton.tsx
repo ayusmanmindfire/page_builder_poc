@@ -1,5 +1,5 @@
 
-const CustomButton = ({ label, style, disabled }:any) => {
+const CustomButton = ({ label="Default", style, disabled }:any) => {
   function onClick(){
     console.log("hyyyyy")
     alert("HY")
@@ -9,6 +9,7 @@ const CustomButton = ({ label, style, disabled }:any) => {
       onClick={onClick}
       style={{
         padding: "10px 20px",
+        margin:"5px",
         fontSize: "16px",
         backgroundColor: disabled ? "#ccc" : "#007bff",
         color: "#fff",
