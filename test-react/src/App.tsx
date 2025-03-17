@@ -2,6 +2,8 @@ import { PageBuilderReact } from "page-builder-react";
 import CustomButton from "./components/CustomButton";
 import CustomTable from "./components/CustomTable";
 import Counter from "./components/Counter";
+import Rating from "./components/CustomRating";
+import CustomToggle from "./components/CustomToggle";
 
 const App = () => {
   const serializableConfig = {
@@ -18,7 +20,9 @@ const App = () => {
   const reactComponents = {
     customButton: CustomButton,
     customTable: CustomTable,
-    customCounter:Counter
+    customCounter:Counter,
+    customRating: Rating,
+    customToggle: CustomToggle
   };
 
   return (
